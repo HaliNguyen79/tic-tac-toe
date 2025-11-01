@@ -50,7 +50,7 @@ function Game() {
 
     setHistory([...history, squares]); // ????
     // currentMove = currentMove + 1)
-    setCurrentMove(currentMove + 1);
+    setCurrentMove(currentMove + 1)
   };
 
   //Restart game 
