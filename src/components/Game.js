@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import Board from "./Board";
 
 function Game() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
   const [winner, setWinner] = useState(null);
+
 
   //Declaring a Winner
   useEffect(() => {
-    "Your code here";
-  }, [squares]);
+    const winnerValue = calculateWinner(history[currentMove]); // check for a winner
+    setWinner(winnerValue); // update state if someone won
+  // }
+  }, [history]);
 
   //function to check if a player has won.
   //If a player has won, we can display text such as “Winner: X” or “Winner: O”.
@@ -40,22 +43,46 @@ function Game() {
 
   //Handle player
   const handleClick = (i) => {
-    "Your code here";
+    if (winner) return;
+    const squares = [...history[currentMove]];
+    if (squares[i]) return;
+    squares[i] = currentMove % 2 === 0 ? "X" : "O";
+
+    setHistory([...history, squares]); // ????
+    // currentMove = currentMove + 1)
+    setCurrentMove(currentMove + 1);
   };
 
-  //Restart game
+  //Restart game 
   const handlRestart = () => {
-    "Your code here";
+    setHistory([Array(9).fill(null)]);
+    setWinner(null);
+    setCurrentMove(0);
   };
+
+  const moves = history.map((board, move) => (
+  <li key={move}>
+    <button onClick={() => {
+      if (winner) return;
+      setCurrentMove(move);
+    }}>
+      Go to move #{move}
+    </button>
+  </li>
+));
 
   return (
     <div className="main">
       <h2 className="result">Winner is: {winner ? winner : "N/N"}</h2>
       <div className="game">
-        <span className="player">Next player is: {xIsNext ? "X" : "O"}</span>
-        <Board squares={"Your code here"} handleClick={"Your code here"} />
+        <span className="player">Next player is: {currentMove % 2 === 0 ? "X" : "O"}</span>
+        <Board squares={history[currentMove]} handleClick={handleClick} />
+        <div className="history">
+        <h3>History</h3>
+        <ol>{moves}</ol>
       </div>
-      <button onClick={"Your code here"} className="restart-btn">
+      </div>
+      <button onClick={handlRestart} className="restart-btn">
         Restart
       </button>
     </div>
