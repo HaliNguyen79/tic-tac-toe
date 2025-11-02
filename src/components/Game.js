@@ -15,7 +15,7 @@ function Game() {
     const winnerValue = calculateWinner(history[currentMove]); // check for a winner
     setWinner(winnerValue); // update state if someone won
   // }
-  }, [history]);
+  }, [history,currentMove]);
 
   //function to check if a player has won.
   //If a player has won, we can display text such as “Winner: X” or “Winner: O”.
