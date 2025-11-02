@@ -5,7 +5,10 @@ function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [winner, setWinner] = useState(null);
-
+  
+  const newMove = currentMove + 1;
+  const historyToKeep = history.slice(0, newMove);
+// const newBoard = history.length - currentMove
 
   //Declaring a Winner
   useEffect(() => {
@@ -48,9 +51,9 @@ function Game() {
     if (squares[i]) return;
     squares[i] = currentMove % 2 === 0 ? "X" : "O";
 
-    setHistory([...history, squares]); // ????
-    // currentMove = currentMove + 1)
-    setCurrentMove(currentMove + 1)
+    setHistory([...historyToKeep, squares]);
+    setCurrentMove(newMove);
+    // setCurrentMove()
   };
 
   //Restart game 
